@@ -1,18 +1,32 @@
 package fr.esgi.hexabank.domain;
 
-import java.util.UUID;
-
 public class Account {
 
-    private final UUID id;
-    private final Money balance;
+    private final AccountId id;
+    private Money balance;
 
-    public Account(UUID id, Money balance) {
+    public Account(AccountId id, Money balance) {
         this.id = id;
         this.balance = balance;
     }
 
-    public void deposit(Money money){}
+    public AccountId id(){
+        return id;
+    }
 
-    public void withdraw(Money money){}
+    public void deposit(Money money){
+        validateTransfert(money);
+        this.balance = this.balance.add(money);
+    }
+
+    public void withdraw(Money money){
+        validateTransfert(money);
+        this.balance = this.balance.minus(money);
+    }
+
+    private void validateTransfert(Money money){
+        if(money.getDoubleValue() <= 0){
+            throw new RuntimeException();
+        }
+    }
 }
